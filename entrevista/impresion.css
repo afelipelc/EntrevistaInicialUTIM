@@ -1,0 +1,138 @@
+
+@page 
+{
+  size: auto;   /* auto is the current printer page size */
+  margin: 0; /*10mm 25mm 10mm 25mm;  /* this affects the margin in the printer settings */
+}
+
+@media print {
+    .secondheader {page-break-before: always;}
+}
+
+body{
+  text-align: left;
+  background-color: #fff;
+  /*padding: 60px 100px 60px 100px;*/
+   margin: 12mm 22mm 10mm 22mm;
+  font-size: 12px;
+}
+
+table{
+	font-size: 12px;
+}
+
+#cabecera, #pageheader{
+	text-align: center;
+	
+}
+#cabecera img{
+	width:440px;
+    height: auto;
+    margin-top: -20px;
+}
+#cabecera h3,#cabecera h4, #cabecera h5 {
+	line-height: 16px;
+	margin: 0px;
+	padding-top: 8px;
+}
+#cabecera h3{
+	padding-top: 16px;
+}
+.fecha{
+	float: right;
+	margin-bottom: 8px;
+	font-weight: bold;
+}
+.secondheader{
+	padding-top:12mm;
+}
+.secondheader h3, .secondheader h4, .secondheader h5{
+	line-height: 16px;
+	height: 16px;
+	margin: 0px;
+}
+#datosAlumno{
+	width: 100%;
+	/*border: solid 1px;*/
+}
+#datosAlumno .info{
+	width: 30%;
+	border-bottom: solid 1px;
+}
+#datosAlumno .espi{
+	padding-left: 6px;
+}
+
+.derecha{
+	margin-left: 170px;
+	margin-top: -5px;
+}
+.lineac, .lineam, .lineag, .linea40, .linea77{
+	display: inline-block;
+	border-bottom: 1px solid;
+}
+.lineac{
+	width: 50px;
+}
+.lineam{
+	min-width: 120px;
+}
+.lineag{
+	width: 200px;
+}
+.linea40{
+	width: 40%;
+}
+.linea77{
+	width: 77%;
+}
+
+.lineacompleta{
+	width: 97%;
+	border-bottom: 1px solid;
+}
+
+.subrayado{
+	text-decoration: underline;
+}
+.subrayado2{
+	width: 80%;
+	display: inline-block;
+	border-bottom: 1px solid;
+}
+
+.etiqueta{
+	display: inline-block;
+	width: 90px;
+}
+.etiqueta10{
+	display: inline-block;
+	width: 10%;
+}
+
+.negrita{
+	font-weight: bold;
+}
+.contenedor{
+	border: 2px solid;
+	margin-top: 12px;
+	padding: 0px;
+}
+
+.contenedor .title{
+	border-bottom: 2px solid;
+	width: auto;
+	padding-left: 10px;
+	padding-top: 0px;
+	margin-top: 1px;
+}
+
+.contenedor ol{
+	margin-left: -5px;
+}
+.contenedor ol li{
+	margin: -5px;
+}
+.contenedor ol li p{
+	line-height: 13px;
+}
