@@ -7,4 +7,4 @@ Automatización de la Entrevista Inicial del Programa Institucional de Tutorías
 Una adecuación de Moodle 2.6 + el plugin Questionnaire.
 
 Un aporte de:
-[@mrjona86](https://twitter.com/@mrjona86) y [@afelipelc](https://twitter.com/afelipelc)
+[@mrjona86](https://twitter.com/mrjona86) y [@afelipelc](https://twitter.com/afelipelc)
