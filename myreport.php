@@ -296,7 +296,7 @@ switch ($action) {
         //Si el cuestionario contiene como título: Entrevista Inicial entonces se muestra el botón para imprimir su respuesta
         if(strtolower($questionnaire->name) == "entrevista inicial"){
         ?>
-        <form name="imprime" action="reportesquestion/entrevista.php" method="post">
+        <form name="imprime" action="entrevista/entrevista.php" method="post">
             <input type="hidden" name="seleccionaUsuario" value="<?php echo $userid; ?>"/>
             <input type="submit" value="Imprimir Entrevista Inicial">
         </form>
