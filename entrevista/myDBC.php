@@ -1,15 +1,16 @@
 <?php
 /**
-* Clase que ejecuta las consultas para obtener las respuestas del cuestionario
+* Clase que ejecuta las consultas a la BD para obtener las respuestas del cuestionario respondido por el alumno
 *
 * Elaborado por Mtro. Yonatan Cruz e Ing. Felipe Lima
 * 
+* Octubre de 2014.
 */
 class myDBC{
 	public $mysqli=null;
 	public function __construct()
 	{
-		include_once("dbconfig2.php");
+		include_once("dbconfig.php");
 		$this->mysqli=new mysqli(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
 		
 		if($this->mysqli->connect_errno){
@@ -23,13 +24,18 @@ class myDBC{
 		$this->CloseDB();
 	}
 
+	/**
+	* Función que elimina los espacios adicionales en el texto recibido
+	* @param string text
+	* @return string
+	*/
 	public function clearText($text){
 		$text=trim($text);
 		return $this->mysqli->real_escape_string($text);
 	}
 
 	/**
-	* Función que obtiene todas las respuestas de las preguntas con dropdown list
+	* Función que obtiene todas las respuestas de las preguntas de tipo dropdown list
 	* 
 	* @param int $usuario
 	* @return Array
@@ -45,7 +51,7 @@ class myDBC{
 	}
 
 	/**
-	* Función que obtiene la respuesta de una pregunta de tipo Text
+	* Función que obtiene la respuesta del usuario a una pregunta de tipo Text identificada por nombre
 	* 
 	* @param int $usuario
   *	@param String $pregunta
@@ -63,7 +69,7 @@ class myDBC{
   }
 
 	/**
-	* Función que obtiene la respuesta de una pregunta de Si|No
+	* Función que obtiene la respuesta del usuario a una pregunta de Si|No identificada por nombre
 	* 
 	* @param int $usuario
   *	@param String $pregunta
@@ -81,7 +87,7 @@ class myDBC{
   }
 
 	/**
-	* Función que obtiene las respuestas de una pregunta de selección múltiple
+	* Función que obtiene las respuestas del usuario a una pregunta de selección múltiple identificada por nombre
 	* 
 	* @param int $usuario
   *	@param String $pregunta
@@ -99,7 +105,7 @@ class myDBC{
   }
 
 	/**
-	* Función que obtiene el valor en Texto de la opción seleccionada -complemento a la pregunta de selección múltiple-
+	* Función que obtiene el valor en Texto de la opción seleccionada por el usuario -complemento a la pregunta de selección múltiple-, la pregunda identificada por nombre
 	* 
 	* @param int $idPregunta
 	* @return String
@@ -112,7 +118,6 @@ class myDBC{
 
 	/**
 	* Función que obtiene el nombre del cuestionario
-	* Actualmente no se está usando.
 	* 
 	* @param int $idQuestionnaire
 	* @return String
@@ -126,7 +131,7 @@ class myDBC{
 	/**
 	* Función que convierte un MySQLi Result a Array
 	* 
-	* @param Array $data
+	* @param MySQLResult $data
 	* @return Array
 	*/
 	private function render_to_array($data){
@@ -142,7 +147,7 @@ class myDBC{
 	/**
 	* Función que trasforma un único campo contenido en un único resultado de la consulta SQL
 	* 
-	* @param Array $data
+	* @param MySQLResult $data
 	* @return String
 	*/
 	private function render_to_one($data){

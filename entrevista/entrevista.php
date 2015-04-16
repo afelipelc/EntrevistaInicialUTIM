@@ -11,7 +11,15 @@ header('Content-Type: text/html; charset="utf-8"', true);
 include_once("myDBC.php");
 
 // Recibimos el usuario de la encuesta a través del formulario en un hidden.
-$usuario = $_POST['seleccionaUsuario'];
+$usuario = "";
+
+  if( isset($_POST['seleccionaUsuario']))
+  {
+    $usuario = $_POST['seleccionaUsuario'];
+  }elseif (isset($_GET["rid"], $_GET["action"]) && $_GET["action"] == "list") {
+    $usuario = $_GET["rid"];
+  }
+
 if($usuario==""){
   echo'<script type="text/javascript">
       alert("Ning?n registro");
