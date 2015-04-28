@@ -20,36 +20,6 @@ class myDBC{
 		$this->mysqli->set_charset("utf8");
 	}
 
-	public function __destruct(){
-		$this->CloseDB();
-	}
-
-	/**
-	* Función que elimina los espacios adicionales en el texto recibido
-	* @param string text
-	* @return string
-	*/
-	public function clearText($text){
-		$text=trim($text);
-		return $this->mysqli->real_escape_string($text);
-	}
-
-	/**
-	* Función que obtiene todas las respuestas de las preguntas de tipo dropdown list
-	* 
-	* @param int $usuario
-	* @return Array
-	*/
-  public function respuestas_cmb($usuario){
-		$sql = "SELECT c.content
-			from mdl_questionnaire_quest_choice as c, mdl_questionnaire_resp_single as t, mdl_questionnaire_response as f
-			where c.question_id=t.question_id
-			and t.choice_id=c.id
-			and t.response_id=f.id
-			and f.username='$usuario'";
-		return $this->render_to_array($this->mysqli->query($sql));
-	}
-
 	/**
 	* Función que obtiene la respuesta del usuario a una pregunta de tipo Text identificada por nombre
 	* 
@@ -156,6 +126,32 @@ class myDBC{
   	}
   	$row = mysqli_fetch_array($data, MYSQLI_NUM);
   	return $row[0];
+	}
+
+	/**
+	* Función que elimina los espacios adicionales en el texto recibido
+	* @param string text
+	* @return string
+	*/
+	public function clearText($text){
+		$text=trim($text);
+		return $this->mysqli->real_escape_string($text);
+	}
+
+		/**
+	* Función que obtiene todas las respuestas de las preguntas de tipo dropdown list
+	* 
+	* @param int $usuario
+	* @return Array
+	*/
+  public function respuestas_cmb($usuario){
+		$sql = "SELECT c.content
+			from mdl_questionnaire_quest_choice as c, mdl_questionnaire_resp_single as t, mdl_questionnaire_response as f
+			where c.question_id=t.question_id
+			and t.choice_id=c.id
+			and t.response_id=f.id
+			and f.username='$usuario'";
+		return $this->render_to_array($this->mysqli->query($sql));
 	}
 }
 ?>

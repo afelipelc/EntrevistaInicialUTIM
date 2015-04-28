@@ -97,7 +97,8 @@ switch ($action) {
         echo $OUTPUT->header();
 
         // Print the tabs.
-        include('tabs.php');
+        if(has_capability('mod/assignment:addinstance', $context))
+            include('tabs.php');
 
         echo $OUTPUT->heading($titletext);
         echo '<div class = "generalbox">';
@@ -122,7 +123,8 @@ switch ($action) {
         echo $OUTPUT->header();
 
         // Print the tabs.
-        include('tabs.php');
+        if(has_capability('mod/assignment:addinstance', $context))
+            include('tabs.php');
 
         echo $OUTPUT->heading($titletext.':');
         $questionnaire->view_all_responses($resps);
@@ -257,7 +259,8 @@ switch ($action) {
         echo $OUTPUT->header();
 
         // Print the tabs.
-        include('tabs.php');
+        if(has_capability('mod/assignment:addinstance', $context))
+            include('tabs.php');
         echo $OUTPUT->box_start();
 
         echo $OUTPUT->heading($titletext);

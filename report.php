@@ -442,7 +442,12 @@ switch ($action) {
             $SESSION->questionnaire->current_tab = 'mydownloadcsv';
         }
 
-        include('tabs.php');
+
+
+        if(has_capability('mod/assignment:addinstance', $context))
+            include('tabs.php');
+
+
 
         $groupname = '';
         if ($groupmode > 0) {
@@ -530,7 +535,11 @@ switch ($action) {
             default:
                 $SESSION->questionnaire->current_tab = 'valldefault';
         }
-        include('tabs.php');
+        
+
+///AQUI se comprueba el permiso, si no es alumno, se muestran las TABS
+        if(has_capability('mod/assignment:addinstance', $context))
+            include('tabs.php');
 
         $resps = array();
         // Enable choose_group if there are questionnaire groups and groupmode is not set to "no groups"
@@ -702,7 +711,9 @@ switch ($action) {
         if ($individualresponse) {
             $SESSION->questionnaire->current_tab = 'individualresp';
         }
-        include('tabs.php');
+
+        if(has_capability('mod/assignment:addinstance', $context))
+            include('tabs.php');
 
         // Print the main part of the page.
         // TODO provide option to select how many columns and/or responses per page.
@@ -732,13 +743,14 @@ switch ($action) {
 
         //Si el cuestionario contiene como título: Entrevista Inicial entonces se muestra el botón para imprimir su respuesta
         if(strtolower($questionnaire->name) == "entrevista inicial"){
-?>
+    ?>
+        <br><br>
         <form name="imprime" action="entrevista/entrevista.php" method="post">
             <input type="hidden" name="seleccionaUsuario" value="<?php echo $rid; ?>"/>
             <input type="submit" value="Imprimir Entrevista Inicial">
         </form>
-<?php
-        }
+    <?php
+    }
 
         echo $OUTPUT->box_end();
 
