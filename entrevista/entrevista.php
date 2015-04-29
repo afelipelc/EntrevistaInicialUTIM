@@ -9,15 +9,18 @@ header('Content-Type: text/html; charset="utf-8"', true);
 */
 
 include_once("myDBC.php");
+// Creamos objeto de la clase myDBC.
+// para hacer uso del m?odo seleccionar_usuario().
+$db = new myDBC();
 
 // Recibimos el usuario de la encuesta a través del formulario en un hidden.
 $usuario = "";
 
   if( isset($_POST['seleccionaUsuario']))
   {
-    $usuario = $_POST['seleccionaUsuario'];
+    $usuario = $db->userIdRespuesta($_POST['seleccionaUsuario']); //$_POST['seleccionaUsuario'];
   }elseif (isset($_GET["rid"], $_GET["action"]) && $_GET["action"] == "list") {
-    $usuario = $_GET["rid"];
+    $usuario = $db->userIdRespuesta($_GET["rid"]);
   }
 
 if($usuario==""){
@@ -72,9 +75,6 @@ window.print(false);
   </div>
 
 <?php
-  // Creamos objeto de la clase myDBC.
-  // para hacer uso del m?odo seleccionar_usuario().
-  $db = new myDBC();
 
   $datoscmb = $db->respuestas_cmb($usuario);
   if(!$datoscmb)

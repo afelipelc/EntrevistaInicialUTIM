@@ -257,7 +257,7 @@ switch ($action) {
         $compare = false;
         // Print the page header.
         echo $OUTPUT->header();
-
+        
         // Print the tabs.
         if(has_capability('mod/assignment:addinstance', $context))
             include('tabs.php');

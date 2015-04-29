@@ -20,6 +20,23 @@ class myDBC{
 		$this->mysqli->set_charset("utf8");
 	}
 
+	public function __destruct(){
+		$this->mysqli->close();
+	}
+
+	/**
+	* Función que obtiene el ID del usuario que respondió a la escuesta a mostrar
+	*
+	* @param int $respuesta
+	* @return int
+	*
+	*/
+	public function userIdRespuesta($respuesta){
+		$sql = "SELECT username from mdl_questionnaire_response 
+			where id = $respuesta limit 1";
+		return $this->render_to_one($this->mysqli->query($sql));
+	}
+
 	/**
 	* Función que obtiene la respuesta del usuario a una pregunta de tipo Text identificada por nombre
 	* 
