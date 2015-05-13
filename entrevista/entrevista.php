@@ -1,5 +1,5 @@
 <?php
-//ini_set('display_errors', '1');
+ini_set('display_errors', '1');
 header('Content-Type: text/html; charset="utf-8"', true);
 /**
 * Script que genera el FDCI en formato HTML para su impresión
@@ -90,9 +90,9 @@ window.print(false);
   <table id="datosAlumno">
     <tr>
       <td class="label">Nombre</td>
-      <td class="info"><?php echo $db->respuestatxt($usuario, 'ei_p02'); echo " ".$db->respuestatxt($usuario, 'ei_p03'); ?> </td>
+      <td class="info"><?php echo $db->respuesta($usuario, 'ei_p02', 'text'); echo " ".$db->respuestatxt($usuario, 'ei_p03'); ?> </td>
       <td class=" label espi">Dirección</td>
-      <td class="info"><?php echo $db->respuestatxt($usuario, 'ei_p05'); ?></td>
+      <td class="info"><?php echo $db->respuesta($usuario, 'ei_p05', 'text'); ?></td>
     </tr>
     <tr>
       <td class="label">Matricula:</td>

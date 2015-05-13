@@ -2263,7 +2263,7 @@ class questionnaire {
                 if ($isfullname) {
                     $responsedate = userdate($ridssub[$i]);
 
-//si está mirando la entrevista inicial, mostrar el link
+                    //si está mirando la entrevista inicial, mostrar el link
                     if(strtolower($this->survey->name) == "entrevista inicial"){
                         array_push($linkarr, '<a title = "'.$responsedate.'" href="'.$url.'&amp;rid='.
                         $rids[$i].'&amp;individualresponse=1" >'.$ridsuserfullname[$i].'</a>'.'&nbsp;&nbsp;&nbsp;'.'<a title = "Imprimir entrevista" href="entrevista/entrevista.php?rid='.$rids[$i].'&amp;action=list" target="_blank" class="author">Imprimir</a> &nbsp;');

@@ -1,0 +1,60 @@
+@page 
+{
+  size: auto;   /* auto is the current printer page size */
+  margin: 0; /*10mm 25mm 10mm 25mm;  /* this affects the margin in the printer settings */
+}
+
+body{
+  text-align: justify;
+  background-color: #fff;
+  margin: 12mm 22mm 10mm 22mm;
+  font-size: 12px;
+}
+
+table{
+  font-size: 14px;
+}
+
+#cabecera, #pageheader{
+  text-align: center; 
+}
+
+#cabecera img{
+  width:440px;
+    height: auto;
+    margin-top: -20px;
+}
+
+#cabecera h4{
+  line-height: 16px;
+  margin: 0px;
+  padding-top: 8px;
+}
+.fecha{
+  float: right;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+#datosAlumno{
+  width: 100%;
+  padding-top: 15mm;
+  /*border: solid 1px;*/
+}
+#datosAlumno .info{
+  width: 30%;
+  border-bottom: solid 1px;
+  text-align: center; 
+}
+
+#datosAlumno .label{  
+  text-align: center; 
+}
+
+.negrita{
+  font-weight: bold;
+}
+.contenedor{
+  border: 2px solid;
+  margin-top: 12px;
+  padding: 0px;
+}

@@ -1,7 +1,8 @@
 <?php
-  //Configuraci髇 de los datos de conexi髇 a la BD
-	define("DB_SERVER","localhost");
-	define("DB_USER","root");
-	define("DB_PASS","Asdf1209");
-	define("DB_NAME","moodle");
+  //Configuraci贸n de los datos de conexi贸n a la BD
+  //actualmente ya no se utiliza este archivo de configuraci贸n, por default se toma el archivo de configuraci贸n de Moodle
+	/*define("DB_SERVER","server");
+	define("DB_USER","user");
+	define("DB_PASS","password");
+	define("DB_NAME","databaseName");*/
 ?>

@@ -1,17 +1,28 @@
 <?php
 /**
 * Clase que ejecuta las consultas a la BD para obtener las respuestas del cuestionario respondido por el alumno
+* Actualización: Ya no se tiene que modificar prefijos en las consultas, por default se toma de la configuración de Moodle.
+* La configuración de los datos de conexión ya no son necesarios, también se toma de la configuración de Moodle.
 *
 * Elaborado por Mtro. Yonatan Cruz e Ing. Felipe Lima
 * 
 * Octubre de 2014.
+* Actualizado el 13 de mayo de 2015
 */
+
 class myDBC{
-	public $mysqli=null;
+	private $mysqli=null;
+	private $prefix="";
+
+
 	public function __construct()
 	{
-		include_once("dbconfig.php");
-		$this->mysqli=new mysqli(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
+		//include_once("dbconfig.php");
+		//$this->mysqli=new mysqli(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
+		//tomar el archivo de configuración de Moodle
+		require_once("../../../config.php");
+		$this->prefix = $CFG->prefix; //guardar el prefijo
+		$this->mysqli=new mysqli($CFG->dbhost,$CFG->dbuser,$CFG->dbpass,$CFG->dbname);
 		
 		if($this->mysqli->connect_errno){
 			echo "Error MySQLi: (".$this->mysqli->connect_errono.")".$this->mysqli->connect_error;
@@ -32,9 +43,38 @@ class myDBC{
 	*
 	*/
 	public function userIdRespuesta($respuesta){
-		$sql = "SELECT username from mdl_questionnaire_response 
+		$sql = "SELECT username from ".$this->prefix."questionnaire_response 
 			where id = $respuesta limit 1";
 		return $this->render_to_one($this->mysqli->query($sql));
+	}
+
+	/**
+	* Función que obtiene la respuesta del usuario a una pregunta identificada por nombre y el tipo especificado de pregunta 
+	* Tipo: text, boolean, multiple, list
+	* 
+	* @param int $usuario
+  *	@param String $pregunta
+  *	@param String $tipo
+	* @return String
+	*/
+	public function respuesta($usuario, $pregunta, $tipo){
+		switch ($tipo) {
+			case 'text':
+				return $this->respuestatxt($usuario, $pregunta);
+				break;
+			case 'boolean':
+				return $this->respuestabool($usuario, $pregunta);
+				break;
+			case 'multiple':
+				return $this->respuestamultiple($usuario, $pregunta);
+				break;
+			case 'list':
+				return $this->respuestas_cmb($usuario);
+				break;
+			default:
+				return null;
+				break;
+		}
 	}
 
 	/**
@@ -46,11 +86,14 @@ class myDBC{
 	*/
   public function respuestatxt($usuario, $pregunta){
   	$sql = "SELECT r.response as respuesta1
-			from mdl_questionnaire_response_text as r, mdl_questionnaire_attempts as t, mdl_questionnaire_response as q, mdl_questionnaire_question as p
-			where r.response_id=t.rid
-			and q.id=r.response_id
-			and r.question_id = p.id
-			and p.name = '$pregunta'
+			from ".$this->prefix."questionnaire_response_text as r, 
+				".$this->prefix."questionnaire_attempts as t, 
+				".$this->prefix."questionnaire_response as q, 
+				".$this->prefix."questionnaire_question as p 
+			where r.response_id=t.rid 
+			and q.id=r.response_id 
+			and r.question_id = p.id 
+			and p.name = '$pregunta' 
 			and q.username='$usuario'";
 			return $this->render_to_one($this->mysqli->query($sql));
   }
@@ -64,11 +107,14 @@ class myDBC{
 	*/
   public function respuestabool($usuario, $pregunta){
   	$sql = "SELECT r.choice_id as respuesta1
-			from mdl_questionnaire_response_bool as r, mdl_questionnaire_attempts as t, mdl_questionnaire_response as q, mdl_questionnaire_question as p
-			where r.response_id=t.rid
-			and q.id=r.response_id
-			and r.question_id = p.id
-			and p.name = '$pregunta'
+			from ".$this->prefix."questionnaire_response_bool as r, 
+				".$this->prefix."questionnaire_attempts as t, 
+				".$this->prefix."questionnaire_response as q, 
+				".$this->prefix."questionnaire_question as p
+			where r.response_id=t.rid 
+			and q.id=r.response_id 
+			and r.question_id = p.id 
+			and p.name = '$pregunta' 
 			and q.username='$usuario'";
 			return $this->render_to_one($this->mysqli->query($sql)) == "y" ? "SI" : "NO";
   }
@@ -82,7 +128,10 @@ class myDBC{
 	*/
   public function respuestamultiple($usuario, $pregunta){
   	$sql = "SELECT r.choice_id as respuesta1
-			from mdl_questionnaire_resp_multiple as r, mdl_questionnaire_attempts as t, mdl_questionnaire_response as q, mdl_questionnaire_question as p
+			from ".$this->prefix."questionnaire_resp_multiple as r, 
+				".$this->prefix."questionnaire_attempts as t, 
+				".$this->prefix."questionnaire_response as q, 
+				".$this->prefix."questionnaire_question as p
 			where r.response_id=t.rid
 			and q.id=r.response_id
 			and r.question_id = p.id
@@ -99,7 +148,7 @@ class myDBC{
 	*/
   public function respuestaElecta($idPregunta)
   {
-  	$sql = "select content from mdl_questionnaire_quest_choice where id=".$idPregunta." limit 1";
+  	$sql = "select content from ".$this->prefix."questionnaire_quest_choice where id=".$idPregunta." limit 1";
   	return $this->render_to_one($this->mysqli->query($sql));
   }
 
@@ -110,7 +159,7 @@ class myDBC{
 	* @return String
 	*/
   public function questionnaire($idQuestionnaire){
-  	$sql = "select name from mdl_questionnaire where id=".$id." limit 1";
+  	$sql = "select name from ".$this->prefix."questionnaire where id=".$id." limit 1";
   	return $this->render_to_one($this->mysqli->query($sql));
 
   }
