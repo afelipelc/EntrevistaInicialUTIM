@@ -43,9 +43,26 @@ class myDBC{
 	*
 	*/
 	public function userIdRespuesta($respuesta){
-		$sql = "SELECT username from ".$this->prefix."questionnaire_response 
-			where id = $respuesta limit 1";
-		return $this->render_to_one($this->mysqli->query($sql));
+		//$sql = "SELECT username from ".$this->prefix."questionnaire_response 
+		//	where id = $respuesta limit 1";
+		if ($stmt = $this->mysqli->prepare("SELECT username from ".$this->prefix."questionnaire_response where id = ? limit 1")){
+
+			$stmt->bind_param("i", $respuesta);
+			
+			if (!$stmt->execute()) {
+    		echo "Falló la ejecución: (" . $stmt->errno . ") " . $stmt->error;
+			}
+
+			$stmt->bind_result($usern);
+			$stmt->fetch();
+			$stmt->close();
+  		return $usern;
+		}
+		else
+		{
+			//echo "Falló la preparación: (" . $this->mysqli->errno . ") " . $this->mysqli->error;
+			return "";
+		}
 	}
 
 	/**
@@ -190,7 +207,7 @@ class myDBC{
 		if($data->num_rows==0){
   		return "";
   	}
-  	$row = mysqli_fetch_array($data, MYSQLI_NUM);
+  	$row = $data->fetch_array(MYSQLI_NUM);//mysqli_fetch_array($data, MYSQLI_NUM);
   	return $row[0];
 	}
 
@@ -204,7 +221,7 @@ class myDBC{
 		return $this->mysqli->real_escape_string($text);
 	}
 
-		/**
+  /**
 	* Función que obtiene todas las respuestas de las preguntas de tipo dropdown list
 	* 
 	* @param int $usuario
@@ -212,12 +229,82 @@ class myDBC{
 	*/
   public function respuestas_cmb($usuario){
 		$sql = "SELECT c.content
-			from mdl_questionnaire_quest_choice as c, mdl_questionnaire_resp_single as t, mdl_questionnaire_response as f
+			from ".$this->prefix."questionnaire_quest_choice as c, ".$this->prefix."questionnaire_resp_single as t, ".$this->prefix."questionnaire_response as f
 			where c.question_id=t.question_id
 			and t.choice_id=c.id
 			and t.response_id=f.id
 			and f.username='$usuario'";
 		return $this->render_to_array($this->mysqli->query($sql));
 	}
+
+
+	/**
+	* Función que obtiene las respuestas complementarias de observaciones del tutor
+	* 
+	* @param int $usuario
+	* @return string
+	*/
+  public function respuestas_comp($usuario, $column){
+		$sql = "SELECT $column from pit_complement where usuario= $usuario";
+		return $this->render_to_one($this->mysqli->query($sql));
+	}
+
+
+	/**
+	* Función que almacena las observaciones del tutor
+	* 
+	* @param int $usuario
+	* @param int $vulnerable
+	* @param int $socioeconomico
+	* @param int $personales
+	* @param int $academicos
+	* @param string $observaciones
+	* @return boolean
+	*/
+  public function guardar_observaciones($usuario, $vulnerable, $socioeconomico, $personales, $academicos, $observaciones){
+
+		if ($stmt = $this->mysqli->prepare("SELECT usuario from pit_complement where usuario = ? limit 1")){
+
+					$stmt->bind_param("i", $usuario);
+					
+					if (!$stmt->execute()) {
+		    		echo "Falló la ejecución: (" . $stmt->errno . ") " . $stmt->error;
+					}
+
+					$stmt->bind_result($usern);
+					$stmt->fetch();
+					$stmt->close();
+
+					$sql="";
+		  		if ($usern == "" || $usern == null)
+		  			$sql = "Insert into pit_complement values(0, ?, ?, ?, ?, ?, ?)";
+		  		else
+		  			$sql = "update pit_complement set vulnerable = ?, socioeconomico = ?, personales = ?, academicos = ?, observaciones = ? where usuario = ? limit 1";
+		  		
+
+		  		if ($stmt = $this->mysqli->prepare($sql)){
+
+		  			if ($usern == "" || $usern == null)
+		  				$stmt->bind_param('iiiiis',$usuario, $vulnerable, $socioeconomico, $personales, $academicos, $observaciones);
+		  			else
+		  				$stmt->bind_param('iiiisi',$vulnerable, $socioeconomico, $personales, $academicos, $observaciones, $usuario);
+
+		  			if ($stmt->execute()) {
+		    			return true;
+						}
+						else
+						{
+							echo "Falló la ejecución: (" . $stmt->errno . ") " . $stmt->error;
+							return false;
+						}
+
+		  		}
+				}
+				else
+				{
+					return false;
+				}
+	}
+
 }
 ?>

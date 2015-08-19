@@ -2266,7 +2266,7 @@ class questionnaire {
                     //si está mirando la entrevista inicial, mostrar el link
                     if(strtolower($this->survey->name) == "entrevista inicial"){
                         array_push($linkarr, '<a title = "'.$responsedate.'" href="'.$url.'&amp;rid='.
-                        $rids[$i].'&amp;individualresponse=1" >'.$ridsuserfullname[$i].'</a>'.'&nbsp;&nbsp;&nbsp;'.'<a title = "Imprimir entrevista" href="entrevista/entrevista.php?rid='.$rids[$i].'&amp;action=list" target="_blank" class="author">Imprimir</a> &nbsp;');
+                        $rids[$i].'&amp;individualresponse=1" >'.$ridsuserfullname[$i].'</a>'.'&nbsp;&nbsp;&nbsp;'.'<a title = "Imprimir entrevista" href="entrevista/entrevista.php?rid='.$rids[$i].'&amp;action=list" target="_blank" class="author entrevista">Imprimir</a> &nbsp;&nbsp;&nbsp;'.' <a title = "observaciones del tutor" href="entrevista/observaciones.php?rid='.$rids[$i].'&amp;action=obs" target="_blank" class="author entrevista">Observaciones del tutor</a>');
                     }else
                     {
                        array_push($linkarr, '<a title = "'.$responsedate.'" href="'.$url.'&amp;rid='.

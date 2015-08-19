@@ -1,5 +1,6 @@
 <?php
-ini_set('display_errors', '1');
+//ini_set('display_errors', 'all');
+
 header('Content-Type: text/html; charset="utf-8"', true);
 /**
 * Script que genera el FDCI en formato HTML para su impresión
@@ -336,19 +337,16 @@ window.print(false);
   </div>
 
   <div style="margin-top:16px;">
-    <p><span class="negrita">De acuerdo a la información obtenida en los aspectos I, II y III, ?Se considera al alumno como elemento de uno o más grupos altamente vulnerables?</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    SI (&nbsp;&nbsp;) &nbsp;&nbsp;&nbsp;&nbsp; NO (&nbsp;&nbsp;)</p>
+    <p><span class="negrita">De acuerdo a la información obtenida en los aspectos I, II y III, ¿Se considera al alumno como elemento de uno o más grupos altamente vulnerables?</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <?php echo $db->respuestas_comp($usuario, 'vulnerable') == '1' ? "SI (X) &nbsp;&nbsp;&nbsp;&nbsp;  NO (&nbsp;&nbsp;&nbsp;)" :  "SI (&nbsp;&nbsp;&nbsp;)   &nbsp;&nbsp;&nbsp;&nbsp; NO (X)"; ?></p>
     <p class="negrita">Marque los grupos en los que se considera se incluye al alumno como altamente vulnerable.</p>
     <table id="vulnerabilidades">
-          <tr><td>Aspectos Socioeconóicos</td><td>(&nbsp;&nbsp;)</td></tr>
-          <tr><td>Aspectos Personales </td><td>(&nbsp;&nbsp;)</td></tr>
-          <tr><td>Aspectos Académicos</td><td>(&nbsp;&nbsp;)</td></tr>
+          <tr><td>Aspectos Socioeconóicos</td><td><?php echo $db->respuestas_comp($usuario, 'socioeconomico') == '1' ? "(X)" :  "(&nbsp;&nbsp;&nbsp;)"; ?></td></tr>
+          <tr><td>Aspectos Personales </td><td> <?php echo $db->respuestas_comp($usuario, 'personales') == '1' ? "(X)" :  "(&nbsp;&nbsp;&nbsp;)"; ?> </td></tr>
+          <tr><td>Aspectos Académicos</td><td> <?php echo $db->respuestas_comp($usuario, 'academicos') == '1' ? "(X)" :  "(&nbsp;&nbsp;&nbsp;)"; ?> </td></tr>
     </table>
 
     <div><p class="negrita">OBSERVACIONES DEL TUTOR: </p>
-    <p class="lineacompleta">
-    <p class="lineacompleta">
-    <p class="lineacompleta">
-    <p class="subrayado"></p></div>
+    <p class="lineacompleta"><?php echo $db->respuestas_comp($usuario, 'observaciones'); ?></p></div>
   </div>
 </body>
 </html>
